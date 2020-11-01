@@ -2,6 +2,10 @@
     display: table;
     margin: 0 auto;
   }
+
+#inner-container h1 {
+    text-align: center;
+}
   
 #container {
     width:100%;
@@ -17,12 +21,16 @@
   }
 
 #button-container {
-    padding-top: 15px;
   padding-bottom: 30px;
 }
+
 
 button {
     display:block;  
     margin:0 auto;
     width: 200px; 
+}
+
+#todo-list {
+    min-width:600px;
 }
