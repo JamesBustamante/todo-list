@@ -30,6 +30,10 @@ i {
   padding-right: 10px;
 }
 
+#button-container-bottom {
+    padding-top: 30px;
+}
+
 
 button {
     display:block;  
