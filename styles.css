@@ -1,0 +1,28 @@
+#inner-container {
+    display: table;
+    margin: 0 auto;
+  }
+  
+#container {
+    width:100%;
+    position: relative;
+  }
+
+#outer-container {
+    background-color: #87CEEB;
+  }
+
+* {
+    font-family: sans-serif;
+  }
+
+#button-container {
+    padding-top: 15px;
+  padding-bottom: 30px;
+}
+
+button {
+    display:block;  
+    margin:0 auto;
+    width: 200px; 
+}
