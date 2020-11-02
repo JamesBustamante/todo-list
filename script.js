@@ -59,16 +59,7 @@ saveItemsBtn.addEventListener('click', function () {
             listObj[count] = child.innerText;
             count += 1;
         }
-
     }
-    // TODO : element.childnodes
-    // FIX LOOP ISSUE. Problem occurs when deleting and then retriving values
-    /*
-    for (var i = 0; i < count; i++) {
-        console.log(document.getElementById('list-item-' + (i + 1)));
-        listObj[i] = document.getElementById('list-item-' + (i + 1)).innerText;
-        console.log(listObj[i]);
-    }*/
     localStorage.setItem('savedList', JSON.stringify(listObj));
     console.log(localStorage.savedList);
 });
@@ -103,7 +94,10 @@ removeItemBtn.addEventListener('click', function () {
 updateItemBtn.addEventListener('click', function () {
     todoList = document.getElementById('todo-list');
     var firstElement = todoList.firstElementChild;
-    updatedNode = createNewNode();
+    if (isInput())
+        updatedNode = createNewNode();
+    else
+        return
 
     if (updatedNode != null || updatedNode != undefined) //Error handling
         todoList.replaceChild(updatedNode, firstElement);
@@ -116,9 +110,6 @@ inputBox.addEventListener('keyup', function (e) {
         addListItem();
     }
 });
-
-// Add an event listener to button : onclick
-addItemBtn.addEventListener('click', addListItem);
 
 function createNewNode() {
     var inputBox = document.getElementById('input-task');
@@ -168,7 +159,7 @@ function createNewNode() {
 
 // Create new tasks based on input entered into textbox
 // TODO - Refactor function - use createNewNode
-function addListItem(textValue = null) {
+function addListItem() {
     var inputBox = document.getElementById('input-task');
 
     var count = todoList.childElementCount;
@@ -196,7 +187,7 @@ function addListItem(textValue = null) {
 // check if there is input in input-task textbox
 function isInput() {
     var inputBox = document.getElementById('input-task');
-    console.log(document.getElementById('input-task').value)
+    console.log(inputBox.value);
     if (inputBox.value.length <= 0) {
         alert('Please enter the name of the task')
         return false;
