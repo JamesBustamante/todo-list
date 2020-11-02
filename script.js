@@ -52,10 +52,7 @@ saveItemsBtn.addEventListener('click', function () {
     var count = 1;
     todoList = document.getElementById('todo-list');
     for (var child = todoList.firstElementChild; child !== null; child = child.nextElementSibling) {
-        console.log(child)
-        console.log(child.style);
         if (child.style.display != "none") {
-            console.log("CLEAR");
             listObj[count] = child.innerText;
             count += 1;
         }
