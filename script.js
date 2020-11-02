@@ -151,6 +151,35 @@ function addListItem() {
         alert('Please enter the name of the task')
         return;
     }
+});
+
+// Add an event listener to button : onclick
+addItemBtn.addEventListener('click', function () { 
+    if (isInput())
+        addListItem();
+});
+
+function createNewNode() {
+    var inputBox = document.getElementById('input-task');
+    var count = todoList.childElementCount;
+    var newListElement = document.createElement('li');
+    var newIdiomElement = document.createElement('i');
+
+    // Manipulate the DOM
+    newListElement.appendChild(document.createTextNode(inputBox.value));
+    newListElement.appendChild(newIdiomElement);
+    // Change element properties
+    newListElement.id = "list-item-" + (count + 1);
+    newListElement.className = "list-group-item";
+    newIdiomElement.className = "fa fa-trash";
+
+    return newListElement;
+}
+
+// Create new tasks based on input entered into textbox
+// TODO - Refactor function - use createNewNode
+function addListItem(textValue = null) {
+    var inputBox = document.getElementById('input-task');
 
     var count = todoList.childElementCount;
     var newListElement = document.createElement('li');
@@ -172,4 +201,13 @@ function addListItem() {
     inputBox.value = "";
 
     handleHideTasks();
+}
+// check if there is input in input-task textbox
+function isInput() {
+    var inputBox = document.getElementById('input-task');
+    if (inputBox.value.length <= 0) {
+        alert('Please enter the name of the task')
+        return false;
+    }
+    return true;
 }
