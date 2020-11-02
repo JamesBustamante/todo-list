@@ -160,6 +160,7 @@ function createNewNode() {
 // Create new tasks based on input entered into textbox
 // TODO - Refactor function - use createNewNode
 function addListItem() {
+    var todoList = document.getElementById('todo-list');
     var inputBox = document.getElementById('input-task');
 
     var count = todoList.childElementCount;
