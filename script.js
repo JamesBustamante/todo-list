@@ -142,19 +142,9 @@ function createNewNode() {
     return newListElement;
 }
 
-// Create new tasks based on input entered into textbox
-// TODO - Refactor function - use createNewNode
-function addListItem() {
-    var inputBox = document.getElementById('input-task');
-    todoList = document.getElementById('todo-list');
-    if (inputBox.value.length <= 0) {
-        alert('Please enter the name of the task')
-        return;
-    }
-});
-
 // Add an event listener to button : onclick
 addItemBtn.addEventListener('click', function () { 
+    console.log(document.getElementById('input-task').value)
     if (isInput())
         addListItem();
 });
@@ -202,9 +192,11 @@ function addListItem(textValue = null) {
 
     handleHideTasks();
 }
+
 // check if there is input in input-task textbox
 function isInput() {
     var inputBox = document.getElementById('input-task');
+    console.log(document.getElementById('input-task').value)
     if (inputBox.value.length <= 0) {
         alert('Please enter the name of the task')
         return false;
