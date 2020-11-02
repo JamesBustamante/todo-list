@@ -45,131 +45,131 @@ if (localStorage.savedList === undefined) {
     }
 }
 
-    // Store current todo-list into local storage
-    saveItemsBtn.addEventListener('click', function () {
-        //console.log(todoList);
-        listObj = {};
-        var count = 1;
-        todoList = document.getElementById('todo-list');
-        //console.log(todoList)
-        for (var child = todoList.firstChild; child !== null; child = child.nextSibling) {
-            console.log(child);
-            console.log(child.style.display);
-            if (child.style.display != "none") {
-                console.log("CLEAR");
-                listObj[count] = child.innerText;
-                count += 1;
-            }
-            
+// Store current todo-list into local storage
+saveItemsBtn.addEventListener('click', function () {
+    //console.log(todoList);
+    listObj = {};
+    var count = 1;
+    todoList = document.getElementById('todo-list');
+    for (var child = todoList.firstElementChild; child !== null; child = child.nextElementSibling) {
+        console.log(child)
+        console.log(child.style);
+        if (child.style.display != "none") {
+            console.log("CLEAR");
+            listObj[count] = child.innerText;
+            count += 1;
         }
-        // TODO : element.childnodes
-        // FIX LOOP ISSUE. Problem occurs when deleting and then retriving values
-        /*
-        for (var i = 0; i < count; i++) {
-            console.log(document.getElementById('list-item-' + (i + 1)));
-            listObj[i] = document.getElementById('list-item-' + (i + 1)).innerText;
-            console.log(listObj[i]);
-        }*/
-        localStorage.setItem('savedList', JSON.stringify(listObj));
-        console.log(localStorage.savedList);
-    });
 
-    // Reset current todo list and reload the page
-    resetItemsBtn.addEventListener('click', function () {
-        localStorage.clear();
-        window.location.reload(true);
-    });
+    }
+    // TODO : element.childnodes
+    // FIX LOOP ISSUE. Problem occurs when deleting and then retriving values
+    /*
+    for (var i = 0; i < count; i++) {
+        console.log(document.getElementById('list-item-' + (i + 1)));
+        listObj[i] = document.getElementById('list-item-' + (i + 1)).innerText;
+        console.log(listObj[i]);
+    }*/
+    localStorage.setItem('savedList', JSON.stringify(listObj));
+    console.log(localStorage.savedList);
+});
 
-    // Handle the removing of elements
-    var binClassBtn = document.getElementsByClassName('fa fa-trash');
+// Reset current todo list and reload the page
+resetItemsBtn.addEventListener('click', function () {
+    localStorage.clear();
+    window.location.reload(true);
+});
+
+// Handle the removing of elements
+var binClassBtn = document.getElementsByClassName('fa fa-trash');
+handleHideTasks();
+function handleHideTasks() {
+    var i;
+    for (i = 0; i < binClassBtn.length; i++) {
+        binClassBtn[i].onclick = function () {
+            var div = this.parentElement;
+            div.style.display = "none";
+        }
+    }
+}
+
+console.log(binClassBtn)
+
+removeItemBtn.addEventListener('click', function () {
+    var firstElement = todoList.firstElementChild;
+
+    todoList.removeChild(firstElement);
+});
+
+updateItemBtn.addEventListener('click', function () {
+    todoList = document.getElementById('todo-list');
+    var firstElement = todoList.firstElementChild;
+    updatedNode = createNewNode();
+
+    if (updatedNode != null || updatedNode != undefined) //Error handling
+        todoList.replaceChild(updatedNode, firstElement);
     handleHideTasks();
-    function handleHideTasks() {
-        var i;
-        for (i = 0; i < binClassBtn.length; i++) {
-            binClassBtn[i].onclick = function () {
-                var div = this.parentElement;
-                div.style.display = "none";
-            }
-        }
+});
+
+// Add an event listener to button : press enter
+inputBox.addEventListener('keyup', function (e) {
+    if (e.keyCode === 13) {
+        addListItem();
+    }
+});
+
+// Add an event listener to button : onclick
+addItemBtn.addEventListener('click', addListItem);
+
+function createNewNode() {
+    var inputBox = document.getElementById('input-task');
+    if (inputBox.value.length <= 0) {
+        alert('Please enter the name of the task')
+        return;
     }
 
-    console.log(binClassBtn)
+    var count = todoList.childElementCount;
+    var newListElement = document.createElement('li');
+    var newIdiomElement = document.createElement('i');
 
-    removeItemBtn.addEventListener('click', function () {
-        var firstElement = todoList.firstElementChild;
+    // Manipulate the DOM
+    newListElement.appendChild(document.createTextNode(inputBox.value));
+    newListElement.appendChild(newIdiomElement);
+    // Change element properties
+    newListElement.id = "list-item-" + (count + 1);
+    newListElement.className = "list-group-item";
+    newIdiomElement.className = "fa fa-trash";
 
-        todoList.removeChild(firstElement);
-    });
+    return newListElement;
+}
 
-    updateItemBtn.addEventListener('click', function () {
-        var firstElement = todoList.firstElementChild;
-        updatedNode = createNewNode();
-
-        if (updatedNode != null || updatedNode != undefined) //Error handling
-            todoList.replaceChild(updatedNode, firstElement);
-        handleHideTasks();
-    });
-
-    // Add an event listener to button : press enter
-    inputBox.addEventListener('keyup', function (e) {
-        if (e.keyCode === 13) {
-            addListItem();
-        }
-    });
-
-    // Add an event listener to button : onclick
-    addItemBtn.addEventListener('click', addListItem);
-
-    function createNewNode() {
-        var inputBox = document.getElementById('input-task');
-        if (inputBox.value.length <= 0) {
-            alert('Please enter the name of the task')
-            return;
-        }
-
-        var count = todoList.childElementCount;
-        var newListElement = document.createElement('li');
-        var newIdiomElement = document.createElement('i');
-
-        // Manipulate the DOM
-        newListElement.appendChild(document.createTextNode(inputBox.value));
-        newListElement.appendChild(newIdiomElement);
-        // Change element properties
-        newListElement.id = "list-item-" + (count + 1);
-        newListElement.className = "list-group-item";
-        newIdiomElement.className = "fa fa-trash";
-
-        return newListElement;
+// Create new tasks based on input entered into textbox
+// TODO - Refactor function - use createNewNode
+function addListItem() {
+    var inputBox = document.getElementById('input-task');
+    todoList = document.getElementById('todo-list');
+    if (inputBox.value.length <= 0) {
+        alert('Please enter the name of the task')
+        return;
     }
 
-    // Create new tasks based on input entered into textbox
-    // TODO - Refactor function - use createNewNode
-    function addListItem() {
-        var inputBox = document.getElementById('input-task');
-        todoList = document.getElementById('todo-list');
-        if (inputBox.value.length <= 0) {
-            alert('Please enter the name of the task')
-            return;
-        }
+    var count = todoList.childElementCount;
+    var newListElement = document.createElement('li');
+    var newIdiomElement = document.createElement('i');
 
-        var count = todoList.childElementCount;
-        var newListElement = document.createElement('li');
-        var newIdiomElement = document.createElement('i');
+    // Manipulate the DOM
+    newListElement.appendChild(document.createTextNode(inputBox.value));
+    newListElement.appendChild(newIdiomElement);
+    // Change element properties
+    newListElement.id = "list-item-" + (count + 1);
+    newListElement.className = "list-group-item";
+    newIdiomElement.className = "fa fa-trash";
 
-        // Manipulate the DOM
-        newListElement.appendChild(document.createTextNode(inputBox.value));
-        newListElement.appendChild(newIdiomElement);
-        // Change element properties
-        newListElement.id = "list-item-" + (count + 1);
-        newListElement.className = "list-group-item";
-        newIdiomElement.className = "fa fa-trash";
+    // Insert at the beginning at the list
+    //var firstItem = todoList.firstElementChild;
+    //todoList.insertBefore(newListElement, firstItem);
+    todoList.appendChild(newListElement); // append to todo list
 
-        // Insert at the beginning at the list
-        //var firstItem = todoList.firstElementChild;
-        //todoList.insertBefore(newListElement, firstItem);
-        todoList.appendChild(newListElement); // append to todo list
+    inputBox.value = "";
 
-        inputBox.value = "";
-
-        handleHideTasks();
-    }
+    handleHideTasks();
+}
